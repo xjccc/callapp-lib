@@ -40,7 +40,16 @@ export const getWeChatVersion = (): string => {
 
 export const isAndroid = /android/i.test(ua);
 
-export const isIos = /iphone|ipad|ipod/i.test(ua);
+let platform: string | undefined;
+if ('userAgentData' in navigator) {
+  platform = navigator.userAgentData?.platform;
+} else {
+  platform = navigator.platform;
+}
+const maxTouchPoints = navigator.maxTouchPoints || 0;
+
+export const isIOS =
+  /iphone|ipad|ipod/i.test(ua) || (platform === 'MacIntel' && maxTouchPoints > 1);
 
 export const isWxwork = /wxwork\/([\d.]+)/i.test(ua);
 
